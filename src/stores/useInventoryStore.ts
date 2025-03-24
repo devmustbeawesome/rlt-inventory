@@ -1,49 +1,74 @@
-import { computed, reactive, toValue, type Reactive } from 'vue'
+import { reactive, ref, toValue, type Reactive } from 'vue'
 type InventoryItem = {
   id: number
   count: number
   imgUrl: string
+  position: number
 }
-type InvetoryMap = Map<number, InventoryItem | undefined>
-const INVENTORY_SIZE = 25
+type InvetoryMap = Array<InventoryItem>
 const STORAGE_KEY = 'inventory'
-// refresh invetory by change storage
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 window.addEventListener('storage', (e) => {
-  if (e.key === STORAGE_KEY) state = reactive(getInvventoryFromLocalStorage())
+  state.value = reactive(getInvventoryFromLocalStorage())
 })
 function getInvventoryFromLocalStorage(): InvetoryMap {
   const jsonInventory = localStorage.getItem(STORAGE_KEY)
   let inventory: InvetoryMap
-  if (jsonInventory) inventory = new Map(JSON.parse(jsonInventory))
+  if (jsonInventory) inventory = JSON.parse(jsonInventory)
   else {
-    inventory = new Map(new Array(INVENTORY_SIZE).entries())
+    let id = 0
+    inventory = [
+      {
+        id: id++,
+        count: 23,
+        imgUrl: '/item-image-3.png',
+        position: 0,
+      },
+      {
+        id: id++,
+        count: 6,
+        imgUrl: '/item-image-1.png',
+        position: 2,
+      },
+      {
+        id: id++,
+        count: 4,
+        imgUrl: '/item-image-2.png',
+        position: 3,
+      },
+    ]
   }
   return inventory
 }
 function setInvventoryToLocalStorage(inventory: Reactive<InvetoryMap> | InvetoryMap) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(inventory.entries())))
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(inventory))
 }
 
-let state = reactive(getInvventoryFromLocalStorage())
+const state = ref(getInvventoryFromLocalStorage())
 function moveItem(from: number, to: number) {
-  const oldItem = state.get(to)
-  const newItem = state.get(from)
-  state.set(from, oldItem)
-  state.set(to, newItem)
-  setInvventoryToLocalStorage(toValue(state))
+  const fromIndex = state.value.findIndex((item) => item.position == from)
+  const toIndex = state.value.findIndex((item) => item.position == to)
+  if (~fromIndex) state.value[fromIndex].position = to
+  if (~toIndex) state.value[toIndex].position = from
+  setInvventoryToLocalStorage(toValue(state.value))
 }
-function getItem(position: number) {
-  return state.get(position)
+function getItem(id: number) {
+  return state.value.find((item) => item.id == id)
 }
-function setItem(position: number, item: InventoryItem) {
-  state.set(position, item)
-  setInvventoryToLocalStorage(toValue(state))
+function changeItem(newItem: InventoryItem) {
+  const index = state.value.findIndex((item) => item.id == newItem.id)
+  if (~index) state.value[index] = newItem
+  setInvventoryToLocalStorage(toValue(state.value))
 }
-const itemsMap = computed(() => state)
+function addItem(item: InventoryItem) {
+  state.value.push(item)
+  setInvventoryToLocalStorage(toValue(state.value))
+}
 
 export default {
-  itemsMap,
+  state,
   moveItem,
   getItem,
-  setItem,
+  changeItem,
+  addItem,
 }
