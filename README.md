@@ -1,39 +1,13 @@
 # rlt
 
-This template should help get you started developing with Vue 3 in Vite.
+Вам необходимо реализовать веб-приложение - автономно работающий инвентарь, т.е. после закрытия браузера предметы и их позиции должны быть сохранены. По нажатию на предмет инвентаря должна выезжать плашка с его описанием и кнопкой удалить, реализовать удаление предметов (см. комментарии на фигме)
 
-## Recommended IDE Setup
+Дизайн: https://www.figma.com/design/t4whC9HCWE3ZSqefZdnsU8/FrontTest?node-id=0-1&t=VTDFKxAmw319OzkR-1
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+Стек технологий:
 
-## Type Support for `.vue` Imports in TS
+Vue 3 composition api (script setup), typescript, SCSS + HTML (вёрстка по БЭМ), pinia/vuex (если нужно), vite
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+Важно! Не используйте никаких ui библиотек / css фреймворков.
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+Постарайтесь придерживаться принципа DRY (например, не копировать и вставлять руками каждый повторяющийся элемент или объект). Код должен быть разбит на разумное количество компонентов, функционал, который может быть переиспользован, вынесен.
