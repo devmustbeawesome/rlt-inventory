@@ -21,19 +21,19 @@ function getInvventoryFromLocalStorage(): InvetoryMap {
       {
         id: id++,
         count: 23,
-        imgUrl: '/item-image-3.png',
+        imgUrl: new URL('/item-image-3.png', import.meta.url).href,
         position: 0,
       },
       {
         id: id++,
         count: 6,
-        imgUrl: '/item-image-1.png',
+        imgUrl: new URL('/item-image-1.png', import.meta.url).href,
         position: 2,
       },
       {
         id: id++,
         count: 4,
-        imgUrl: '/item-image-2.png',
+        imgUrl: new URL('/item-image-3.png', import.meta.url).href,
         position: 3,
       },
     ]
